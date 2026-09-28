@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الخزنة السرية | الأستاذ نصرالدين أحمد نصرالدين</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', system-ui, -apple-system, sans-serif; }
+        
+        :root {
+            --navy: #0f172a; --navy-light: #1e293b;
+            --gold: #c9a44c; --gold-light: #e5c76b; --gold-dark: #a8853a;
+            --bg: #f4f6f8; --white: #ffffff;
+            --gray-100: #f8fafc; --gray-200: #e2e8f0; --gray-300: #cbd5e1;
+            --gray-500: #64748b; --gray-700: #334155;
+            --red: #dc2626; --green: #059669; --blue: #2563eb;
+            --purple: #8b5cf6; --orange: #f59e0b;
+        }
+
+        body { background: var(--bg); min-height: 100vh; display: flex; flex-direction: column; color: var(--navy); line-height: 1.6; }
+
+        .site-header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: white; padding: 18px 20px;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.15);
+            border-bottom: 3px solid var(--gold);
+        }
+        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap; }
+        .brand { display: flex; align-items: center; gap: 14px; }
+        .brand-logo {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 26px; box-shadow: 0 4px 12px rgba(201, 164, 76, 0.35); flex-shrink: 0;
+        }
+        .brand-text h1 { font-size: 1.35rem; font-weight: 900; letter-spacing: -0.3px; margin-bottom: 2px; color: var(--white); }
+        .brand-text p { font-size: 0.78rem; color: var(--gold); font-weight: 600; margin: 0; }
+        .header-badge {
+            background: rgba(201, 164, 76, 0.15); border: 1px solid var(--gold);
+            color: var(--gold-light); padding: 6px 14px; border-radius: 20px;
+            font-size: 0.75rem; font-weight: 700;
+        }
+
+        .site-main { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 40px 20px; }
+
+        .card {
+            background: white; border-radius: 16px; padding: 35px 30px;
+            width: 100%; max-width: 420px;
+            box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+            text-align: center; border: 1px solid var(--gray-200); margin: auto;
+        }
+        .icon {
+            font-size: 52px; margin-bottom: 15px; display: inline-block; padding: 15px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 50%; width: 90px; height: 90px; line-height: 60px;
+        }
+        h2 { color: var(--navy); margin-bottom: 10px; font-weight: 800; font-size: 1.4rem; }
+        p { color: var(--gray-500); font-size: 14px; margin-bottom: 22px; }
+        
+        input {
+            width: 100%; padding: 14px 16px;
+            border: 2px solid var(--gray-200); border-radius: 10px;
+            font-size: 16px; margin-bottom: 15px; outline: none; text-align: center;
+            transition: 0.2s; background: var(--gray-100); font-family: inherit;
+        }
+        input:focus { border-color: var(--gold); background: white; box-shadow: 0 0 0 4px rgba(201, 164, 76, 0.1); }
+        
+        button {
+            width: 100%; padding: 14px; background: var(--navy); color: white;
+            border: none; border-radius: 10px; font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: 0.2s; font-family: inherit;
+        }
+        button:hover:not(:disabled) { background: var(--navy-light); transform: translateY(-1px); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .error {
+            color: var(--red); font-size: 13px; margin-top: 10px; display: none;
+            background: #fef2f2; padding: 10px; border-radius: 8px; border: 1px solid #fecaca;
+        }
+        .hidden { display: none !important; }
+
+        .files-container, .clients-container, .client-files-container {
+            background: white; border-radius: 16px; padding: 30px;
+            width: 100%; max-width: 1000px;
+            box-shadow: 0 10px 40px rgba(15, 23, 42, 0.08);
+            border: 1px solid var(--gray-200);
+        }
+        .files-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 25px; padding-bottom: 18px;
+            border-bottom: 2px solid var(--gray-200); flex-wrap: wrap; gap: 10px;
+        }
+        .files-header h2 { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 1.3rem; }
+
+        .stats-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 28px; }
+        .stat-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+            color: white; padding: 18px; border-radius: 12px;
+            position: relative; overflow: hidden;
+            border: 1px solid rgba(201, 164, 76, 0.3); transition: 0.3s;
+        }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(15, 23, 42, 0.2); }
+        .stat-card::after {
+            content: ''; position: absolute; top: -20px; left: -20px;
+            width: 80px; height: 80px;
+            background: radial-gradient(circle, rgba(201, 164, 76, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .stat-card .stat-icon { font-size: 22px; margin-bottom: 6px; opacity: 0.9; }
+        .stat-card .stat-value { font-size: 1.6rem; font-weight: 900; color: var(--gold-light); line-height: 1; margin-bottom: 4px; }
+        .stat-card .stat-label { font-size: 0.75rem; color: var(--gray-300); font-weight: 600; }
+
+        .search-bar { position: relative; margin-bottom: 20px; }
+        .search-bar input {
+            width: 100%; padding: 12px 45px 12px 45px;
+            border: 2px solid var(--gray-200); border-radius: 12px;
+            font-size: 15px; text-align: right; background: var(--gray-100);
+            transition: 0.2s; margin: 0;
+        }
+        .search-bar input:focus { border-color: var(--gold); background: white; box-shadow: 0 0 0 4px rgba(201, 164, 76, 0.1); }
+        .search-bar .search-icon {
+            position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+            font-size: 18px; color: var(--gray-500); pointer-events: none;
+        }
+        .search-bar .clear-search {
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+            background: var(--gray-300); color: var(--navy); border: none;
+            width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+            font-size: 14px; padding: 0; display: none; font-weight: bold; line-height: 1; transition: 0.2s;
+        }
+        .search-bar .clear-search:hover { background: var(--gold); color: white; }
+        .search-bar.has-value .clear-search { display: block; }
+
+        .files-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .file-card {
+            background: linear-gradient(135deg, var(--gray-100) 0%, #f1f5f9 100%);
+            border: 2px solid var(--gray-200); border-radius: 12px;
+            padding: 25px 20px; text-align: center; cursor: pointer;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        .file-card::before {
+            content: ''; position: absolute; top: 0; right: 0; left: 0; height: 4px;
+            background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+            transform: scaleX(0); transition: transform 0.3s;
+        }
+        .file-card:hover::before { transform: scaleX(1); }
+        .file-card:hover {
+            transform: translateY(-5px); box-shadow: 0 15px 35px rgba(15, 23, 42, 0.12);
+            border-color: var(--gold); background: white;
+        }
+        .file-card .file-icon { font-size: 40px; margin-bottom: 12px; }
+        .file-card h3 { color: var(--navy); font-size: 1.05rem; margin-bottom: 5px; font-weight: 800; }
+        .file-card p { color: var(--gray-500); font-size: 0.8rem; margin: 0; }
+        .file-card .file-count {
+            position: absolute; top: 12px; left: 12px;
+            background: var(--gold); color: white; padding: 3px 10px;
+            border-radius: 12px; font-size: 0.7rem; font-weight: 800;
+        }
+
+        .clients-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-top: 15px; }
+        .client-card {
+            background: var(--gray-100); border: 2px solid var(--gray-200);
+            border-radius: 12px; padding: 18px 15px; text-align: center;
+            cursor: pointer; transition: all 0.3s ease; position: relative;
+        }
+        .client-card:hover {
+            transform: translateY(-3px); box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+            border-color: var(--gold); background: white;
+        }
+        .client-card .client-icon { font-size: 32px; margin-bottom: 10px; }
+        .client-card h4 { color: var(--navy); font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+        .client-card p { color: var(--gray-500); font-size: 0.72rem; margin: 0; }
+
+        .client-card .delete-client-btn {
+            position: absolute; top: 8px; left: 8px;
+            background: var(--red); color: white; border: none;
+            width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+            font-size: 12px; padding: 0; display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: 0.2s; line-height: 1;
+        }
+        .client-card:hover .delete-client-btn { opacity: 1; }
+        .client-card .delete-client-btn:hover { background: #b91c1c; transform: scale(1.15); }
+
+        .back-btn { background: var(--gray-500); color: white; margin-bottom: 15px; width: auto; padding: 10px 20px; font-size: 14px; }
+        .back-btn:hover { background: var(--gray-700); transform: translateY(-1px); }
+        .add-btn { background: var(--green); color: white; margin-bottom: 15px; width: auto; padding: 10px 20px; font-size: 14px; }
+        .add-btn:hover { background: #047857; transform: translateY(-1px); }
+        .print-btn { background: var(--purple); color: white; margin-bottom: 15px; width: auto; padding: 10px 20px; font-size: 14px; }
+        .print-btn:hover { background: #7c3aed; transform: translateY(-1px); }
+
+        .trash-btn {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white; margin-bottom: 15px; width: auto;
+            padding: 10px 20px; font-size: 14px; transition: 0.2s;
+        }
+        .trash-btn:hover { background: var(--gray-700); transform: translateY(-1px); }
+        .trash-btn.has-items {
+            background: linear-gradient(135deg, var(--red) 0%, #b91c1c 100%);
+            animation: pulseRed 2s infinite;
+        }
+        @keyframes pulseRed {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.5); }
+            50% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+        }
+
+        .action-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 15px; }
+        .action-bar button { margin-bottom: 0; }
+
+        .upload-btn {
+            background: linear-gradient(135deg, var(--blue) 0%, #1d4ed8 100%);
+            color: white; margin-bottom: 8px; padding: 13px 28px;
+            border-radius: 10px; font-size: 15px; font-weight: 700;
+            display: inline-block; text-align: center; cursor: pointer;
+            transition: 0.2s; border: none; user-select: none;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+        }
+        .upload-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35); }
+        .upload-btn.disabled { opacity: 0.6; pointer-events: none; cursor: not-allowed; }
+
+        .upload-hint {
+            color: var(--gray-500); font-size: 12px; margin-bottom: 20px;
+            text-align: center; line-height: 1.7;
+            padding: 8px; background: var(--gray-100); border-radius: 8px;
+        }
+        .upload-hint strong { color: var(--navy); }
+
+        .no-items { color: var(--gray-500); text-align: center; padding: 40px 20px; font-size: 0.95rem; }
+        .loading {
+            color: var(--blue); text-align: center; padding: 25px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600;
+        }
+        .spinner {
+            width: 20px; height: 20px; border: 3px solid #dbeafe;
+            border-top-color: var(--blue); border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .view-controls { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; flex-wrap: wrap; }
+        .view-btn, .size-btn {
+            padding: 8px 16px; background: var(--gray-200); color: var(--navy);
+            border: 2px solid var(--gray-300); border-radius: 8px;
+            cursor: pointer; font-size: 0.85rem; transition: 0.3s;
+            width: auto; font-weight: 600; font-family: inherit;
+        }
+        .view-btn:hover, .size-btn:hover { background: var(--gray-300); }
+        .view-btn.active { background: var(--navy); color: white; border-color: var(--navy); }
+        .size-btn.active { background: var(--green); color: white; border-color: var(--green); }
+
+        .files-grid-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+        .files-grid-view.size-large { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; }
+        .files-grid-view.size-medium { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+        .files-grid-view.size-normal { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+
+        .files-list-view { display: flex; flex-direction: column; gap: 10px; }
+        .files-list-view .file-list-item {
+            display: flex; align-items: center; gap: 15px;
+            background: var(--gray-100); border: 1px solid var(--gray-200);
+            border-radius: 10px; padding: 12px 15px; transition: 0.2s;
+        }
+        .files-list-view .file-list-item:hover {
+            box-shadow: 0 5px 15px rgba(15, 23, 42, 0.08);
+            background: white; border-color: var(--gold);
+        }
+        .files-list-view .file-list-icon { font-size: 28px; flex-shrink: 0; }
+        .files-list-view .file-list-info { flex: 1; text-align: right; min-width: 0; }
+        .files-list-view .file-list-name { color: var(--navy); font-size: 0.9rem; font-weight: 700; word-break: break-all; }
+        .files-list-view .file-list-size { color: var(--gray-500); font-size: 0.75rem; margin-top: 3px; }
+        .files-list-view .file-actions { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+        .files-list-view .file-actions button {
+            padding: 6px 10px; border-radius: 6px; font-size: 0.75rem;
+            width: auto; cursor: pointer; border: none; color: white; transition: 0.2s;
+        }
+        .files-list-view .file-actions button:hover { transform: translateY(-1px); opacity: 0.9; }
+
+        .file-card-item {
+            background: white; border: 1px solid var(--gray-200);
+            border-radius: 12px; padding: 15px; text-align: center;
+            cursor: pointer; transition: 0.2s;
+        }
+        .file-card-item:hover {
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.12);
+            transform: translateY(-4px); border-color: var(--gold);
+        }
+        .file-card-item.size-large .file-preview { height: 200px; font-size: 80px; }
+        .file-card-item.size-medium .file-preview { height: 140px; font-size: 50px; }
+        .file-card-item.size-normal .file-preview { height: 100px; font-size: 35px; }
+        .file-preview {
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 8px; margin-bottom: 10px;
+            overflow: hidden; background: var(--gray-100);
+        }
+        .file-preview img { max-width: 100%; max-height: 100%; object-fit: cover; }
+        .file-name {
+            color: var(--navy); font-size: 0.8rem; font-weight: 700;
+            margin-bottom: 10px; word-break: break-all; min-height: 32px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .file-actions-grid { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; }
+        .file-actions-grid button {
+            padding: 5px 9px; border-radius: 5px; font-size: 0.72rem;
+            width: auto; cursor: pointer; border: none; color: white; transition: 0.2s;
+        }
+        .file-actions-grid button:hover { transform: translateY(-1px); opacity: 0.9; }
+
+        .btn-download { background: var(--blue); }
+        .btn-copy { background: var(--green); }
+        .btn-rename { background: var(--orange); }
+        .btn-delete { background: var(--red); }
+        .btn-preview { background: var(--purple); }
+
+        .upload-progress {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe; border-radius: 10px;
+            padding: 14px; margin-bottom: 18px; text-align: center;
+            color: var(--blue); font-size: 0.9rem; font-weight: 600;
+        }
+        .upload-progress .progress-bar { height: 8px; background: white; border-radius: 4px; margin-top: 10px; overflow: hidden; }
+        .upload-progress .progress-bar div {
+            height: 100%; background: linear-gradient(90deg, var(--blue) 0%, #3b82f6 100%);
+            transition: width 0.3s;
+        }
+
+        .status-banner {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            padding: 12px 24px; border-radius: 10px;
+            font-size: 13px; font-weight: 600; z-index: 9999;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            max-width: 90%; animation: slideDown 0.3s;
+        }
+        @keyframes slideDown {
+            from { transform: translate(-50%, -20px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+        .status-ok { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .status-err { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .status-info { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+
+        .site-footer {
+            background: var(--navy); color: var(--gray-300);
+            padding: 25px 20px; text-align: center;
+            border-top: 3px solid var(--gold); margin-top: auto;
+        }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-name { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+        .footer-role { font-size: 0.85rem; color: var(--gold-light); margin-bottom: 12px; font-weight: 600; }
+        .footer-divider { width: 60px; height: 2px; background: var(--gold); margin: 12px auto; border-radius: 1px; }
+        .footer-copy { font-size: 0.78rem; color: var(--gray-500); }
+        .footer-copy strong { color: var(--gold); }
+
+        .print-report { padding: 30px; background: white; color: black; }
+        .print-report .report-header {
+            text-align: center; border-bottom: 3px double var(--navy);
+            padding-bottom: 15px; margin-bottom: 20px;
+        }
+        .print-report .report-header h1 { font-size: 1.6rem; color: var(--navy); margin-bottom: 5px; font-weight: 900; }
+        .print-report .report-header p { color: var(--gray-500); font-size: 0.85rem; margin: 0; }
+        .print-report .report-info {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 10px; margin-bottom: 20px; padding: 15px;
+            background: var(--gray-100); border-radius: 8px;
+            border-right: 4px solid var(--gold);
+        }
+        .print-report .report-info div { font-size: 0.9rem; }
+        .print-report .report-info strong { color: var(--navy); }
+        .print-report table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.85rem; }
+        .print-report table thead { background: var(--navy); color: white; }
+        .print-report table th {
+            padding: 10px; text-align: right; font-weight: 700;
+            border: 1px solid var(--navy);
+        }
+        .print-report table td { padding: 8px 10px; border: 1px solid var(--gray-300); }
+        .print-report table tbody tr:nth-child(even) { background: var(--gray-100); }
+        .print-report .report-footer {
+            margin-top: 25px; padding-top: 15px;
+            border-top: 2px solid var(--gray-300);
+            text-align: center; font-size: 0.8rem; color: var(--gray-500);
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            #printArea, #printArea * { visibility: visible; }
+            #printArea { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
+            .site-header, .site-footer, .status-banner, .site-main > *:not(#printArea) { display: none !important; }
+            @page { margin: 15mm; }
+        }
+
+        @media (max-width: 640px) {
+            .site-main { padding: 25px 15px; }
+            .card { padding: 30px 22px; }
+            .files-container, .clients-container, .client-files-container { padding: 22px 18px; }
+            .brand-text h1 { font-size: 1.1rem; }
+            .brand-logo { width: 44px; height: 44px; font-size: 22px; }
+            .header-badge { display: none; }
+            .files-header h2 { font-size: 1.1rem; }
+            .files-list-view .file-list-item { flex-wrap: wrap; }
+            .files-list-view .file-actions { width: 100%; justify-content: center; }
+            .stats-panel { grid-template-columns: repeat(2, 1fr); }
+            .stat-card .stat-value { font-size: 1.3rem; }
+            .action-bar { flex-direction: column; }
+            .action-bar button { width: 100%; }
+            .print-report .report-info { grid-template-columns: 1fr; }
+
+            .files-grid-view,
+            .files-grid-view.size-normal,
+            .files-grid-view.size-medium,
+            .files-grid-view.size-large {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+            }
+            .file-card-item { padding: 10px !important; border-radius: 10px !important; }
+            .file-card-item.size-large .file-preview,
+            .file-card-item.size-medium .file-preview,
+            .file-card-item.size-normal .file-preview {
+                height: 90px !important; font-size: 32px !important;
+            }
+            .file-name {
+                font-size: 0.72rem !important; min-height: 28px !important;
+                margin-bottom: 6px !important;
+            }
+            .file-actions-grid { gap: 3px !important; }
+            .file-actions-grid button { padding: 4px 6px !important; font-size: 0.65rem !important; }
+            .size-btn { display: none !important; }
+            .view-controls > span { display: none !important; }
+            .client-card .delete-client-btn { opacity: 1; }
+        }
+
+        @media (max-width: 380px) {
+            .files-grid-view,
+            .files-grid-view.size-normal,
+            .files-grid-view.size-medium,
+            .files-grid-view.size-large {
+                grid-template-columns: 1fr !important;
+            }
+            .file-card-item.size-large .file-preview,
+            .file-card-item.size-medium .file-preview,
+            .file-card-item.size-normal .file-preview {
+                height: 130px !important; font-size: 50px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="statusBanner" class="status-banner status-info hidden">
+        <span id="statusText">جاري التحقق...</span>
+    </div>
+
+    <header class="site-header">
+        <div class="header-inner">
+            <div class="brand">
+                <div class="brand-logo">⚖️</div>
+                <div class="brand-text">
+                    <h1>الخزنة السرية</h1>
+                    <p>الأستاذ نصرالدين أحمد نصرالدين</p>
+                </div>
+            </div>
+            <div class="header-badge">🔒 نظام آمن ومشفر</div>
+        </div>
+    </header>
+
+    <main class="site-main">
+
+        <div id="loginPage" class="card">
+            <div class="icon">🔒</div>
+            <h2>مرحباً بك</h2>
+            <p>أدخل كلمة السر لفتح الخزنة</p>
+            <input type="password" id="passInput" placeholder="••••••">
+            <button type="button" onclick="checkPassword()">فتح الخزنة</button>
+            <div id="errorMsg" class="error">❌ كلمة السر غير صحيحة!</div>
+        </div>
+
+        <div id="filesPage" class="files-container hidden">
+            <div class="files-header">
+                <h2>📂 ملفات القضايا</h2>
+                <button type="button" onclick="logout()" style="width: auto; padding: 10px 20px; background: var(--red); font-size: 14px;">🔒 قفل الخزنة</button>
+            </div>
+
+            <div class="stats-panel" id="statsPanel">
+                <div class="stat-card">
+                    <div class="stat-icon">📂</div>
+                    <div class="stat-value" id="statCategories">0</div>
+                    <div class="stat-label">عدد الفئات</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value" id="statClients">0</div>
+                    <div class="stat-label">إجمالي الموكلين</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📄</div>
+                    <div class="stat-value" id="statFiles">0</div>
+                    <div class="stat-label">إجمالي الملفات</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💾</div>
+                    <div class="stat-value" id="statSize">0 MB</div>
+                    <div class="stat-label">الحجم الإجمالي</div>
+                </div>
+            </div>
+
+            <div class="files-grid" id="filesGrid"></div>
+        </div>
+
+        <div id="clientsPage" class="clients-container hidden">
+            <button type="button" class="back-btn" onclick="goBackToFiles()">🔙 رجوع للملفات</button>
+            <h3 id="clientsTitle" style="margin-bottom: 15px; color: var(--navy); font-weight: 800;"></h3>
+
+            <div class="search-bar" id="clientsSearchBar">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="clientsSearchInput" placeholder="ابحث عن موكل بالاسم..." oninput="filterClients(this.value)">
+                <button type="button" class="clear-search" onclick="clearSearch('clients')" title="مسح">✕</button>
+            </div>
+
+            <div class="action-bar">
+                <button type="button" class="add-btn" onclick="addClient()">➕ إضافة موكل</button>
+                <button type="button" class="trash-btn" id="trashBtn" onclick="openTrash()">🗑️ المحذوفين (<span id="trashCount">0</span>)</button>
+                <button type="button" class="print-btn" onclick="printClientsList()">🖨️ طباعة القائمة</button>
+            </div>
+            <div class="clients-list" id="clientsList"></div>
+        </div>
+
+        <div id="trashPage" class="clients-container hidden">
+            <button type="button" class="back-btn" onclick="closeTrash()">🔙 رجوع للموكلين</button>
+            <h3 style="margin-bottom: 15px; color: var(--navy); font-weight: 800;">
+                🗑️ الموكلون المحذوفون — <span id="trashCategoryName" style="color: var(--red);"></span>
+            </h3>
+
+            <div style="background: #fef3c7; border: 1px solid #fbbf24; padding: 12px; border-radius: 10px; margin-bottom: 15px; font-size: 0.85rem; color: #92400e;">
+                <strong>ℹ️ ملاحظة:</strong> الموكلون هنا محفوظون في مجلد <strong>_المحذوفين</strong> في Google Drive. يمكنك استعادتهم أو حذفهم نهائياً.
+            </div>
+
+            <div class="action-bar">
+                <button type="button" class="add-btn" id="emptyTrashBtn" onclick="emptyTrash()" style="background: var(--red);">🗑️ تفريغ السلة نهائياً</button>
+            </div>
+
+            <div class="clients-list" id="trashList"></div>
+        </div>
+
+        <div id="clientFilesPage" class="client-files-container hidden">
+            <button type="button" class="back-btn" onclick="goBackToClients()">🔙 رجوع للموكلين</button>
+            <h2 id="clientFilesTitle" style="margin-bottom: 15px; color: var(--navy); font-weight: 800;"></h2>
+
+            <div class="search-bar" id="filesSearchBar">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="filesSearchInput" placeholder="ابحث في الملفات بالاسم..." oninput="filterFiles(this.value)">
+                <button type="button" class="clear-search" onclick="clearSearch('files')" title="مسح">✕</button>
+            </div>
+
+            <div class="action-bar">
+                <label for="fileInput" class="upload-btn" id="uploadBtn">📤 رفع الملفات</label>
+                <button type="button" class="print-btn" onclick="printClientReport()">🖨️ طباعة تقرير الموكل</button>
+            </div>
+            <input type="file" id="fileInput" multiple style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;">
+            <p id="uploadHint" class="upload-hint"></p>
+
+            <div id="uploadProgress" class="upload-progress hidden">
+                <span id="uploadProgressText">جاري الرفع...</span>
+                <div class="progress-bar"><div id="progressBarFill" style="width: 0%;"></div></div>
+            </div>
+            <div class="view-controls">
+                <button class="view-btn active" onclick="setView('grid')" id="gridViewBtn">📦 شبكة</button>
+                <button class="view-btn" onclick="setView('list')" id="listViewBtn">📋 قائمة</button>
+                <span style="margin: 0 5px; color: var(--gray-300);">|</span>
+                <button class="size-btn active" onclick="setSize('normal')" id="sizeNormalBtn">عادي</button>
+                <button class="size-btn" onclick="setSize('medium')" id="sizeMediumBtn">متوسط</button>
+                <button class="size-btn" onclick="setSize('large')" id="sizeLargeBtn">كبير</button>
+            </div>
+            <div class="files-list" id="clientFilesList"></div>
+        </div>
+
+    </main>
+
+    <div id="printArea" style="display: none;"></div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-name">الأستاذ نصرالدين أحمد نصرالدين</div>
+            <div class="footer-role">المحامي والمستشار القانوني</div>
+            <div class="footer-divider"></div>
+            <div class="footer-copy">
+                &copy; <span id="currentYear"></span> <strong>الخزنة السرية</strong> — جميع الحقوق محفوظة
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const CORRECT_PASSWORD = '1234';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbyd-UoTbYePctgHF7BZpvAw-KetUkL2fjLCivOeaYzWANoZYYjnr0PRrcPNye_iGfgz/exec';
+
+        const UPLOAD_CONFIG = {
+            MAX_SIZE_PER_FILE: 5 * 1024 * 1024,
+            MAX_FILES_PER_UPLOAD: 10,
+            ALLOWED_TYPES: [],
+            DELAY_BETWEEN_UPLOADS: 500,
+            MAX_TOTAL_SIZE: 25 * 1024 * 1024,
+            ADD_TIMESTAMP: false,
+            REJECT_DUPLICATES: false
+        };
+
+        const filesData = [
+            { name: 'القضايا الشرعية', icon: '📜' },
+            { name: 'القضايا الإدارية', icon: '🏛️' },
+            { name: 'القضايا الجنائية', icon: '⚖️' },
+            { name: 'القضايا المدنية', icon: '🏠' },
+            { name: 'القضايا الحقوقية', icon: '👥' },
+            { name: 'التوثيقات', icon: '📑' }
+        ];
+
+        let currentFile = '';
+        let currentClient = '';
+        let currentView = 'grid';
+        let currentSize = 'normal';
+        let allClientFiles = [];
+        let allClients = [];
+        let allDeletedClients = [];
+        let isUploading = false;
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        let statusTimer = null;
+        function showStatus(msg, type) {
+            const banner = document.getElementById('statusBanner');
+            const text = document.getElementById('statusText');
+            banner.className = 'status-banner ' + (type === 'ok' ? 'status-ok' : type === 'err' ? 'status-err' : 'status-info');
+            text.textContent = msg;
+            banner.classList.remove('hidden');
+            if (statusTimer) clearTimeout(statusTimer);
+            if (type !== 'info') {
+                statusTimer = setTimeout(() => banner.classList.add('hidden'), 5000);
+            }
+        }
+
+        function apiFetch(url, options = {}, timeout = 120000) {
+            const controller = new AbortController();
+            const timer = setTimeout(() => controller.abort(), timeout);
+            return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(timer));
+        }
+
+        async function apiGet(params) {
+            const url = API_URL + '?' + new URLSearchParams(params).toString();
+            const res = await apiFetch(url, { method: 'GET' }, 120000);
+            return await parseResponse(res);
+        }
+
+        async function apiPost(payload, timeout = 120000) {
+            const res = await apiFetch(API_URL, {
+                method: 'POST', redirect: 'follow',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+            }, timeout);
+            return await parseResponse(res);
+        }
+
+        async function parseResponse(res) {
+            const text = await res.text();
+            if (text.indexOf('<!DOCTYPE') !== -1 || text.indexOf('<html') !== -1) {
+                throw new Error('الخادم أرجع HTML بدلاً من JSON. تحقق من صلاحية النشر.');
+            }
+            if (text.indexOf('Script function not found') !== -1) {
+                throw new Error('دالة غير موجودة في السكربت.');
+            }
+            try { return JSON.parse(text); }
+            catch (e) { throw new Error('استجابة غير صالحة: ' + text.substring(0, 200)); }
+        }
+
+        async function testConnection() {
+            try {
+                showStatus('🔄 جاري التحقق من الاتصال...', 'info');
+                const data = await apiGet({ action: 'ping' });
+                if (data.success) {
+                    showStatus('✅ الاتصال بالخادم ناجح', 'ok');
+                    return true;
+                }
+                showStatus('❌ فشل: ' + (data.error || ''), 'err');
+                return false;
+            } catch (err) {
+                showStatus('❌ تعذر الاتصال: ' + err.message, 'err');
+                return false;
+            }
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('passInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+            if (password === CORRECT_PASSWORD) {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('filesPage').classList.remove('hidden');
+                errorMsg.style.display = 'none';
+                renderFiles();
+                testConnection();
+                loadStatistics();
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('passInput').value = '';
+            }
+        }
+
+        function logout() {
+            ['filesPage','clientsPage','clientFilesPage','trashPage'].forEach(id => 
+                document.getElementById(id).classList.add('hidden')
+            );
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('passInput').value = '';
+            document.getElementById('uploadProgress').classList.add('hidden');
+            isUploading = false;
+            document.getElementById('uploadBtn').classList.remove('disabled');
+        }
+
+        function goBackToFiles() {
+            ['clientsPage','trashPage','clientFilesPage'].forEach(id => 
+                document.getElementById(id).classList.add('hidden')
+            );
+            document.getElementById('filesPage').classList.remove('hidden');
+            loadStatistics();
+        }
+
+        function goBackToClients() {
+            document.getElementById('clientFilesPage').classList.add('hidden');
+            document.getElementById('clientsPage').classList.remove('hidden');
+        }
+
+        async function loadStatistics() {
+            document.getElementById('statCategories').textContent = filesData.length;
+
+            let totalClients = 0, totalFiles = 0, totalSize = 0;
+
+            for (const cat of filesData) {
+                try {
+                    const data = await apiGet({ action: 'getClients', category: cat.name });
+                    if (data.success && data.clients) {
+                        totalClients += data.clients.length;
+                        const cardCount = document.getElementById('count-' + cat.name);
+                        if (cardCount) cardCount.textContent = data.clients.length;
+
+                        for (const client of data.clients) {
+                            try {
+                                const fd = await apiGet({
+                                    action: 'getClientFiles',
+                                    category: cat.name,
+                                    clientName: client.name
+                                });
+                                if (fd.success && fd.files) {
+                                    totalFiles += fd.files.length;
+                                    fd.files.forEach(f => { totalSize += (f.size || 0); });
+                                }
+                            } catch (e) {}
+                        }
+                    } else {
+                        const cardCount = document.getElementById('count-' + cat.name);
+                        if (cardCount) cardCount.textContent = '0';
+                    }
+                } catch (e) {}
+            }
+
+            document.getElementById('statClients').textContent = totalClients;
+            document.getElementById('statFiles').textContent = totalFiles;
+
+            const sizeMB = (totalSize / 1024 / 1024).toFixed(2);
+            const sizeKB = (totalSize / 1024).toFixed(0);
+            document.getElementById('statSize').textContent = totalSize > 1024 * 1024 ? sizeMB + ' MB' : sizeKB + ' KB';
+        }
+
+        function filterClients(query) {
+            const searchBar = document.getElementById('clientsSearchBar');
+            searchBar.classList.toggle('has-value', query.length > 0);
+            const q = query.trim().toLowerCase();
+            if (!q) { renderClients(allClients); return; }
+            const filtered = allClients.filter(c => c.name.toLowerCase().includes(q));
+            renderClients(filtered, true);
+        }
+
+        function filterFiles(query) {
+            const searchBar = document.getElementById('filesSearchBar');
+            searchBar.classList.toggle('has-value', query.length > 0);
+            const q = query.trim().toLowerCase();
+            if (!q) { renderClientFiles(allClientFiles); return; }
+            const filtered = allClientFiles.filter(f => f.name.toLowerCase().includes(q));
+            renderClientFiles(filtered, true);
+        }
+
+        function clearSearch(type) {
+            if (type === 'clients') {
+                document.getElementById('clientsSearchInput').value = '';
+                document.getElementById('clientsSearchBar').classList.remove('has-value');
+                renderClients(allClients);
+            } else {
+                document.getElementById('filesSearchInput').value = '';
+                document.getElementById('filesSearchBar').classList.remove('has-value');
+                renderClientFiles(allClientFiles);
+            }
+        }
+
+        function printClientsList() {
+            const printArea = document.getElementById('printArea');
+            const today = new Date().toLocaleDateString('ar-EG', {
+                year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'
+            });
+
+            let rows = '';
+            allClients.forEach((client, i) => {
+                const date = new Date(client.dateCreated).toLocaleDateString('ar-EG');
+                rows += `<tr><td style="text-align: center;">${i + 1}</td><td>${client.name}</td><td style="text-align: center;">${date}</td></tr>`;
+            });
+
+            printArea.innerHTML = `
+                <div class="print-report">
+                    <div class="report-header">
+                        <h1>⚖️ الخزنة السرية</h1>
+                        <p>الأستاذ نصرالدين أحمد نصرالدين — المحامي والمستشار القانوني</p>
+                    </div>
+                    <div class="report-info">
+                        <div><strong>الفئة:</strong> ${currentFile}</div>
+                        <div><strong>عدد الموكلين:</strong> ${allClients.length}</div>
+                        <div><strong>تاريخ الطباعة:</strong> ${today}</div>
+                        <div><strong>نوع التقرير:</strong> قائمة الموكلين</div>
+                    </div>
+                    <table>
+                        <thead><tr><th style="width: 60px; text-align: center;">#</th><th>اسم الموكل</th><th style="width: 150px; text-align: center;">تاريخ الإضافة</th></tr></thead>
+                        <tbody>${rows || '<tr><td colspan="3" style="text-align: center; padding: 20px;">لا يوجد موكلون</td></tr>'}</tbody>
+                    </table>
+                    <div class="report-footer">
+                        تم إنشاء هذا التقرير بواسطة نظام الخزنة السرية<br>
+                        © ${new Date().getFullYear()} — جميع الحقوق محفوظة
+                    </div>
+                </div>`;
+
+            printArea.style.display = 'block';
+            setTimeout(() => {
+                window.print();
+                setTimeout(() => { printArea.style.display = 'none'; }, 500);
+            }, 100);
+        }
+
+        function printClientReport() {
+            const printArea = document.getElementById('printArea');
+            const today = new Date().toLocaleDateString('ar-EG', {
+                year: 'numeric', month: 'long', day: 'numeric', weekday: 'long'
+            });
+
+            let totalSize = 0, rows = '';
+            allClientFiles.forEach((file, i) => {
+                totalSize += (file.size || 0);
+                const size = (file.size / 1024).toFixed(2) + ' KB';
+                const type = getFileIcon(file.mimeType) + ' ' + getFileTypeName(file.mimeType);
+                rows += `<tr><td style="text-align: center;">${i + 1}</td><td>${file.name}</td><td style="text-align: center;">${type}</td><td style="text-align: center;">${size}</td></tr>`;
+            });
+
+            const totalSizeText = totalSize > 1024 * 1024
+                ? (totalSize / 1024 / 1024).toFixed(2) + ' MB'
+                : (totalSize / 1024).toFixed(2) + ' KB';
+
+            printArea.innerHTML = `
+                <div class="print-report">
+                    <div class="report-header">
+                        <h1>⚖️ الخزنة السرية</h1>
+                        <p>الأستاذ نصرالدين أحمد نصرالدين — المحامي والمستشار القانوني</p>
+                    </div>
+                    <div class="report-info">
+                        <div><strong>الموكل:</strong> ${currentClient}</div>
+                        <div><strong>الفئة:</strong> ${currentFile}</div>
+                        <div><strong>عدد الملفات:</strong> ${allClientFiles.length}</div>
+                        <div><strong>الحجم الإجمالي:</strong> ${totalSizeText}</div>
+                        <div><strong>تاريخ الطباعة:</strong> ${today}</div>
+                        <div><strong>نوع التقرير:</strong> تقرير موكل مفصّل</div>
+                    </div>
+                    <table>
+                        <thead><tr><th style="width: 50px; text-align: center;">#</th><th>اسم الملف</th><th style="width: 130px; text-align: center;">النوع</th><th style="width: 100px; text-align: center;">الحجم</th></tr></thead>
+                        <tbody>${rows || '<tr><td colspan="4" style="text-align: center; padding: 20px;">لا توجد ملفات</td></tr>'}</tbody>
+                    </table>
+                    <div class="report-footer">
+                        تم إنشاء هذا التقرير بواسطة نظام الخزنة السرية<br>
+                        © ${new Date().getFullYear()} — جميع الحقوق محفوظة
+                    </div>
+                </div>`;
+
+            printArea.style.display = 'block';
+            setTimeout(() => {
+                window.print();
+                setTimeout(() => { printArea.style.display = 'none'; }, 500);
+            }, 100);
+        }
+
+        function getFileTypeName(mimeType) {
+            if (!mimeType) return 'غير معروف';
+            if (mimeType.startsWith('image/')) return 'صورة';
+            if (mimeType.includes('pdf')) return 'PDF';
+            if (mimeType.includes('word') || mimeType.includes('document')) return 'Word';
+            if (mimeType.includes('excel') || mimeType.includes('sheet')) return 'Excel';
+            if (mimeType.includes('powerpoint') || mimeType.includes('presentation')) return 'PowerPoint';
+            if (mimeType.startsWith('audio/')) return 'صوت';
+            if (mimeType.startsWith('video/')) return 'فيديو';
+            if (mimeType === 'text/plain') return 'نص';
+            if (mimeType.includes('zip') || mimeType.includes('rar')) return 'مضغوط';
+            return 'ملف';
+        }
+
+        function renderFiles() {
+            const grid = document.getElementById('filesGrid');
+            grid.innerHTML = '';
+            filesData.forEach(file => {
+                const card = document.createElement('div');
+                card.className = 'file-card';
+                card.innerHTML = `
+                    <div class="file-count" id="count-${file.name}">...</div>
+                    <div class="file-icon">${file.icon}</div>
+                    <h3>${file.name}</h3>
+                    <p>اضغط لفتح الملف</p>
+                `;
+                card.onclick = () => openFile(file.name);
+                grid.appendChild(card);
+            });
+        }
+
+        function openFile(fileName) {
+            currentFile = fileName;
+            document.getElementById('filesPage').classList.add('hidden');
+            document.getElementById('clientsPage').classList.remove('hidden');
+            document.getElementById('clientsTitle').textContent = '📁 ' + fileName;
+            document.getElementById('clientsSearchInput').value = '';
+            document.getElementById('clientsSearchBar').classList.remove('has-value');
+            loadClients();
+            updateTrashCount();
+        }
+
+        async function loadClients() {
+            const list = document.getElementById('clientsList');
+            list.innerHTML = '<div class="loading"><div class="spinner"></div> جاري تحميل الموكلين...</div>';
+            try {
+                const data = await apiGet({ action: 'getClients', category: currentFile });
+                if (data.success) {
+                    allClients = data.clients || [];
+                    renderClients(allClients);
+                } else {
+                    list.innerHTML = '<div class="no-items">تعذر التحميل: ' + (data.error || '') + '</div>';
+                }
+            } catch (err) {
+                list.innerHTML = '<div class="no-items">خطأ: ' + err.message + '</div>';
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        function renderClients(clients, isFiltered) {
+            const list = document.getElementById('clientsList');
+            list.innerHTML = '';
+            if (!clients || clients.length === 0) {
+                list.innerHTML = '<div class="no-items">' +
+                    (isFiltered ? 'لا توجد نتائج مطابقة للبحث.' : 'لا يوجد موكلون بعد.') +
+                    '</div>';
+                return;
+            }
+            clients.forEach(client => {
+                const card = document.createElement('div');
+                card.className = 'client-card';
+                card.innerHTML = `
+                    <button class="delete-client-btn" 
+                            onclick="event.stopPropagation(); deleteClient('${escapeHtml(client.name)}')" 
+                            title="نقل إلى المحذوفين">🗑️</button>
+                    <div class="client-icon">👤</div>
+                    <h4>${client.name}</h4>
+                    <p>${new Date(client.dateCreated).toLocaleDateString('ar-EG')}</p>
+                `;
+                card.onclick = () => openClientFiles(client.name);
+                list.appendChild(card);
+            });
+        }
+
+        async function addClient() {
+            const clientName = prompt('أدخل اسم الموكل:');
+            if (!clientName || !clientName.trim()) return;
+            try {
+                showStatus('⏳ جاري إضافة الموكل...', 'info');
+                const data = await apiGet({
+                    action: 'createClient',
+                    category: currentFile,
+                    clientName: clientName.trim()
+                });
+                if (data.success) {
+                    showStatus('✅ تمت الإضافة', 'ok');
+                    loadClients();
+                } else {
+                    showStatus('❌ ' + data.error, 'err');
+                }
+            } catch (err) {
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        async function deleteClient(clientName) {
+            const cleanName = clientName.replace(/\\'/g, "'");
+            
+            if (!confirm('⚠️ نقل الموكل "' + cleanName + '" إلى المحذوفين؟\n\n📌 يمكن استعادته في أي وقت من زر "المحذوفين".\n\nهل أنت متأكد؟')) return;
+            
+            try {
+                showStatus('⏳ جاري النقل إلى المحذوفين...', 'info');
+                const data = await apiGet({
+                    action: 'deleteClient',
+                    category: currentFile,
+                    clientName: cleanName
+                });
+                
+                if (data.success) {
+                    showStatus('✅ تم نقل الموكل إلى المحذوفين', 'ok');
+                    loadClients();
+                    updateTrashCount();
+                } else {
+                    showStatus('❌ ' + (data.error || 'فشل النقل'), 'err');
+                }
+            } catch (err) {
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        async function openTrash() {
+            document.getElementById('clientsPage').classList.add('hidden');
+            document.getElementById('trashPage').classList.remove('hidden');
+            document.getElementById('trashCategoryName').textContent = currentFile;
+            await loadDeletedClients();
+        }
+
+        function closeTrash() {
+            document.getElementById('trashPage').classList.add('hidden');
+            document.getElementById('clientsPage').classList.remove('hidden');
+            updateTrashCount();
+        }
+
+        async function loadDeletedClients() {
+            const list = document.getElementById('trashList');
+            list.innerHTML = '<div class="loading"><div class="spinner"></div> جاري تحميل المحذوفين...</div>';
+            
+            try {
+                const data = await apiGet({
+                    action: 'getDeletedClients',
+                    category: currentFile
+                });
+                
+                if (data.success) {
+                    allDeletedClients = data.clients || [];
+                    renderDeletedClients(allDeletedClients);
+                } else {
+                    list.innerHTML = '<div class="no-items">تعذر التحميل: ' + (data.error || '') + '</div>';
+                }
+            } catch (err) {
+                list.innerHTML = '<div class="no-items">خطأ: ' + err.message + '</div>';
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        function renderDeletedClients(clients) {
+            const list = document.getElementById('trashList');
+            list.innerHTML = '';
+            
+            if (!clients || clients.length === 0) {
+                list.innerHTML = '<div class="no-items">🎉 لا يوجد موكلون محذوفون في هذه الفئة.</div>';
+                document.getElementById('emptyTrashBtn').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('emptyTrashBtn').style.display = 'inline-block';
+            
+            clients.forEach(client => {
+                const card = document.createElement('div');
+                card.className = 'client-card';
+                card.style.borderColor = '#fecaca';
+                card.style.background = '#fef2f2';
+                card.style.cursor = 'default';
+                
+                const displayName = client.originalName || client.name;
+                let deletedDate = '';
+                try { deletedDate = new Date(client.dateDeleted).toLocaleDateString('ar-EG'); } catch (e) {}
+                
+                card.innerHTML = `
+                    <div class="client-icon" style="filter: grayscale(1);">👤</div>
+                    <h4 style="color: #991b1b;">${displayName}</h4>
+                    <p style="color: #991b1b;">📅 حُذف: ${deletedDate}</p>
+                    <div style="display: flex; gap: 5px; margin-top: 12px; justify-content: center; flex-wrap: wrap;">
+                        <button onclick="event.stopPropagation(); restoreClient('${escapeHtml(client.name)}')" 
+                                style="background: var(--green); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; width: auto;">
+                            ♻️ استعادة
+                        </button>
+                        <button onclick="event.stopPropagation(); permanentlyDelete('${escapeHtml(client.name)}')" 
+                                style="background: var(--red); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; width: auto;">
+                            🗑️ حذف نهائي
+                        </button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        async function restoreClient(clientFolderName) {
+            const cleanName = clientFolderName.replace(/\\'/g, "'");
+            const displayName = cleanName.replace(/_\d{4}-\d{2}-\d{2}T.*$/, '');
+            
+            if (!confirm('♻️ استعادة الموكل "' + displayName + '"؟\n\nسيعود إلى قائمة الموكلين مع جميع ملفاته.')) return;
+            
+            try {
+                showStatus('⏳ جاري الاستعادة...', 'info');
+                const data = await apiGet({
+                    action: 'restoreClient',
+                    category: currentFile,
+                    clientName: cleanName
+                });
+                
+                if (data.success) {
+                    showStatus('✅ تم استعادة الموكل بنجاح', 'ok');
+                    await loadDeletedClients();
+                    updateTrashCount();
+                } else {
+                    showStatus('❌ ' + (data.error || 'فشل الاستعادة'), 'err');
+                }
+            } catch (err) {
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        async function permanentlyDelete(clientFolderName) {
+            const cleanName = clientFolderName.replace(/\\'/g, "'");
+            const displayName = cleanName.replace(/_\d{4}-\d{2}-\d{2}T.*$/, '');
+            
+            if (!confirm('⚠️ تحذير: سيتم حذف "' + displayName + '" نهائياً!\n\nسيُنقل إلى سلة مهملات Google Drive.\n\nهل أنت متأكد؟')) return;
+            if (!confirm('🔴 تأكيد أخير: حذف نهائي لـ "' + displayName + '" وجميع ملفاته؟')) return;
+            
+            try {
+                showStatus('⏳ جاري الحذف النهائي...', 'info');
+                const data = await apiGet({
+                    action: 'permanentlyDeleteClient',
+                    category: currentFile,
+                    clientName: cleanName
+                });
+                
+                if (data.success) {
+                    showStatus('✅ تم الحذف النهائي', 'ok');
+                    await loadDeletedClients();
+                    updateTrashCount();
+                } else {
+                    showStatus('❌ ' + (data.error || 'فشل الحذف'), 'err');
+                }
+            } catch (err) {
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        async function emptyTrash() {
+            if (allDeletedClients.length === 0) {
+                showStatus('ℹ️ السلة فارغة بالفعل', 'info');
+                return;
+            }
+            
+            if (!confirm('⚠️ تحذير خطير: سيتم حذف جميع الموكلين المحذوفين (' + allDeletedClients.length + ') نهائياً!\n\nهل أنت متأكد؟')) return;
+            if (!confirm('🔴 تأكيد نهائي: حذف الكل بدون استعادة؟')) return;
+            
+            try {
+                showStatus('⏳ جاري تفريغ السلة...', 'info');
+                const data = await apiGet({
+                    action: 'emptyTrash',
+                    category: currentFile
+                });
+                
+                if (data.success) {
+                    showStatus('✅ ' + (data.message || 'تم تفريغ السلة'), 'ok');
+                    await loadDeletedClients();
+                    updateTrashCount();
+                } else {
+                    showStatus('❌ ' + (data.error || 'فشل التفريغ'), 'err');
+                }
+            } catch (err) {
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        async function updateTrashCount() {
+            const btn = document.getElementById('trashBtn');
+            const countSpan = document.getElementById('trashCount');
+            
+            if (!btn || !countSpan) return;
+            
+            try {
+                const data = await apiGet({
+                    action: 'getDeletedClients',
+                    category: currentFile
+                });
+                
+                if (data.success) {
+                    const count = (data.clients || []).length;
+                    countSpan.textContent = count;
+                    
+                    if (count > 0) {
+                        btn.classList.add('has-items');
+                    } else {
+                        btn.classList.remove('has-items');
+                    }
+                }
+            } catch (e) {}
+        }
+
+        function openClientFiles(clientName) {
+            currentClient = clientName;
+            document.getElementById('clientsPage').classList.add('hidden');
+            document.getElementById('clientFilesPage').classList.remove('hidden');
+            document.getElementById('clientFilesTitle').textContent = '👤 ' + clientName;
+            document.getElementById('filesSearchInput').value = '';
+            document.getElementById('filesSearchBar').classList.remove('has-value');
+            showUploadLimits();
+            loadClientFiles();
+        }
+
+        async function loadClientFiles() {
+            const list = document.getElementById('clientFilesList');
+            list.innerHTML = '<div class="loading"><div class="spinner"></div> جاري تحميل الملفات...</div>';
+            try {
+                const data = await apiGet({
+                    action: 'getClientFiles',
+                    category: currentFile,
+                    clientName: currentClient
+                });
+                if (data.success) {
+                    renderClientFiles(data.files);
+                } else {
+                    list.innerHTML = '<div class="no-items">تعذر التحميل: ' + (data.error || '') + '</div>';
+                }
+            } catch (err) {
+                list.innerHTML = '<div class="no-items">خطأ: ' + err.message + '</div>';
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        function setView(view) {
+            currentView = view;
+            document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
+            document.getElementById('listViewBtn').classList.toggle('active', view === 'list');
+            renderClientFiles(allClientFiles);
+        }
+
+        function setSize(size) {
+            currentSize = size;
+            document.getElementById('sizeNormalBtn').classList.toggle('active', size === 'normal');
+            document.getElementById('sizeMediumBtn').classList.toggle('active', size === 'medium');
+            document.getElementById('sizeLargeBtn').classList.toggle('active', size === 'large');
+            renderClientFiles(allClientFiles);
+        }
+
+        function getFileIcon(mimeType) {
+            if (!mimeType) return '📎';
+            if (mimeType.startsWith('image/')) return '🖼️';
+            if (mimeType.includes('pdf')) return '📄';
+            if (mimeType.includes('word') || mimeType.includes('document')) return '📝';
+            if (mimeType.includes('excel') || mimeType.includes('sheet')) return '📊';
+            if (mimeType.includes('powerpoint') || mimeType.includes('presentation')) return '📽️';
+            if (mimeType.startsWith('audio/')) return '🎵';
+            if (mimeType.startsWith('video/')) return '🎬';
+            if (mimeType === 'text/plain') return '📃';
+            if (mimeType.includes('zip') || mimeType.includes('rar')) return '🗜️';
+            return '📎';
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        function renderClientFiles(files, isFiltered) {
+            const list = document.getElementById('clientFilesList');
+            list.innerHTML = '';
+            if (!isFiltered) allClientFiles = files || [];
+            if (!files || files.length === 0) {
+                list.innerHTML = '<div class="no-items">' +
+                    (isFiltered ? 'لا توجد نتائج مطابقة للبحث.' : 'لا توجد ملفات مرفوعة بعد.') +
+                    '</div>';
+                return;
+            }
+
+            if (currentView === 'list') {
+                list.className = 'files-list-view';
+                files.forEach(file => {
+                    const item = document.createElement('div');
+                    item.className = 'file-list-item';
+                    const icon = getFileIcon(file.mimeType);
+                    const sizeKB = (file.size / 1024).toFixed(2);
+                    const safeName = escapeHtml(file.name);
+                    item.innerHTML = `
+                        <div class="file-list-icon">${icon}</div>
+                        <div class="file-list-info">
+                            <div class="file-list-name">${file.name}</div>
+                            <div class="file-list-size">${sizeKB} KB</div>
+                        </div>
+                        <div class="file-actions">
+                            <button class="btn-preview" onclick="event.stopPropagation(); previewFile('${file.url}')">👁️</button>
+                            <button class="btn-download" onclick="event.stopPropagation(); window.open('${file.url}', '_blank')">⬇️</button>
+                            <button class="btn-copy" onclick="event.stopPropagation(); copyFile('${file.id}')">📋</button>
+                            <button class="btn-rename" onclick="event.stopPropagation(); renameFile('${file.id}', '${safeName}')">✏️</button>
+                            <button class="btn-delete" onclick="event.stopPropagation(); deleteFile('${file.id}', '${safeName}')">🗑️</button>
+                        </div>`;
+                    list.appendChild(item);
+                });
+            } else {
+                list.className = 'files-grid-view size-' + currentSize;
+                files.forEach(file => {
+                    const card = document.createElement('div');
+                    card.className = 'file-card-item size-' + currentSize;
+                    const previewHTML = (file.mimeType && file.mimeType.startsWith('image/'))
+                        ? `<img src="${file.url}" alt="${file.name}" loading="lazy">`
+                        : `<span style="font-size: inherit;">${getFileIcon(file.mimeType)}</span>`;
+                    const safeName = escapeHtml(file.name);
+                    card.innerHTML = `
+                        <div class="file-preview">${previewHTML}</div>
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-actions-grid">
+                            <button class="btn-preview" onclick="event.stopPropagation(); previewFile('${file.url}')">👁️</button>
+                            <button class="btn-download" onclick="event.stopPropagation(); window.open('${file.url}', '_blank')">⬇️</button>
+                            <button class="btn-copy" onclick="event.stopPropagation(); copyFile('${file.id}')">📋</button>
+                            <button class="btn-rename" onclick="event.stopPropagation(); renameFile('${file.id}', '${safeName}')">✏️</button>
+                            <button class="btn-delete" onclick="event.stopPropagation(); deleteFile('${file.id}', '${safeName}')">🗑️</button>
+                        </div>`;
+                    list.appendChild(card);
+                });
+            }
+        }
+
+        function previewFile(url) { window.open(url, '_blank'); }
+
+        function copyFile(fileId) {
+            const url = `https://drive.google.com/file/d/${fileId}/view`;
+            navigator.clipboard.writeText(url)
+                .then(() => showStatus('✅ تم نسخ الرابط', 'ok'))
+                .catch(() => prompt('انسخ الرابط:', url));
+        }
+
+        async function renameFile(fileId, oldName) {
+            const cleanOld = oldName.replace(/\\'/g, "'");
+            const newName = prompt('✏️ تعديل اسم الملف:\n\nالاسم الحالي: ' + cleanOld + '\n\nأدخل الاسم الجديد:', cleanOld);
+            if (!newName || !newName.trim() || newName.trim() === cleanOld) return;
+            try {
+                showStatus('⏳ جاري التعديل...', 'info');
+                const data = await apiGet({ action: 'renameFile', fileId, newName: newName.trim() });
+                if (data.success) {
+                    showStatus('✅ تم التعديل', 'ok');
+                    loadClientFiles();
+                } else {
+                    showStatus('❌ ' + data.error, 'err');
+                }
+            } catch (err) {
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        async function deleteFile(fileId, fileName) {
+            const cleanName = fileName.replace(/\\'/g, "'");
+            if (!confirm('حذف "' + cleanName + '"؟')) return;
+            try {
+                showStatus('⏳ جاري الحذف...', 'info');
+                const data = await apiGet({ action: 'deleteFile', fileId });
+                if (data.success) {
+                    showStatus('✅ تم الحذف', 'ok');
+                    loadClientFiles();
+                } else {
+                    showStatus('❌ ' + data.error, 'err');
+                }
+            } catch (err) {
+                showStatus('❌ ' + err.message, 'err');
+            }
+        }
+
+        function showUploadLimits() {
+            const hint = document.getElementById('uploadHint');
+            if (!hint) return;
+            const maxMB = (UPLOAD_CONFIG.MAX_SIZE_PER_FILE / 1024 / 1024).toFixed(1);
+            const maxTotalMB = (UPLOAD_CONFIG.MAX_TOTAL_SIZE / 1024 / 1024).toFixed(1);
+            const maxFiles = UPLOAD_CONFIG.MAX_FILES_PER_UPLOAD;
+            let typesText = 'كل الأنواع';
+            if (UPLOAD_CONFIG.ALLOWED_TYPES.length > 0) {
+                typesText = UPLOAD_CONFIG.ALLOWED_TYPES.map(t => {
+                    if (t === 'image/') return 'صور';
+                    if (t === 'application/pdf') return 'PDF';
+                    return t;
+                }).join(' + ');
+            }
+            hint.innerHTML =
+                '📦 <strong>' + maxFiles + '</strong> ملف كحد أقصى — ' +
+                '💾 <strong>' + maxMB + ' MB</strong> لكل ملف — ' +
+                '📊 <strong>' + maxTotalMB + ' MB</strong> إجمالي<br>' +
+                '🎨 ' + typesText;
+        }
+
+        document.getElementById('fileInput').addEventListener('change', async function(e) {
+            if (isUploading) {
+                showStatus('⏳ هناك عملية رفع جارية، انتظر...', 'info');
+                e.target.value = '';
+                return;
+            }
+            if (!currentFile || !currentClient) {
+                showStatus('⚠️ اختر موكلاً أولاً', 'err');
+                e.target.value = '';
+                return;
+            }
+
+            const files = e.target.files;
+            if (!files || files.length === 0) return;
+
+            let fileArray = Array.from(files);
+            e.target.value = '';
+
+            if (fileArray.length > UPLOAD_CONFIG.MAX_FILES_PER_UPLOAD) {
+                showStatus('⚠️ الحد الأقصى ' + UPLOAD_CONFIG.MAX_FILES_PER_UPLOAD + ' ملف. اخترت ' + fileArray.length, 'err');
+                return;
+            }
+            if (UPLOAD_CONFIG.ALLOWED_TYPES.length > 0) {
+                const rejected = fileArray.filter(f => !UPLOAD_CONFIG.ALLOWED_TYPES.some(t => f.type.startsWith(t)));
+                if (rejected.length > 0) {
+                    showStatus('⚠️ أنواع غير مسموحة: ' + rejected.map(f => f.name).join(', '), 'err');
+                    return;
+                }
+            }
+            const oversized = fileArray.filter(f => f.size > UPLOAD_CONFIG.MAX_SIZE_PER_FILE);
+            if (oversized.length > 0) {
+                const maxMB = (UPLOAD_CONFIG.MAX_SIZE_PER_FILE / 1024 / 1024).toFixed(1);
+                showStatus('⚠️ ملفات كبيرة (الحد ' + maxMB + ' MB): ' + oversized.map(f => f.name).join(', '), 'err');
+                return;
+            }
+            const totalSize = fileArray.reduce((sum, f) => sum + f.size, 0);
+            if (totalSize > UPLOAD_CONFIG.MAX_TOTAL_SIZE) {
+                const maxMB = (UPLOAD_CONFIG.MAX_TOTAL_SIZE / 1024 / 1024).toFixed(1);
+                showStatus('⚠️ الحجم الإجمالي يتجاوز ' + maxMB + ' MB', 'err');
+                return;
+            }
+            if (UPLOAD_CONFIG.REJECT_DUPLICATES) {
+                const existingNames = (allClientFiles || []).map(f => f.name);
+                const duplicates = fileArray.filter(f => existingNames.includes(f.name));
+                if (duplicates.length > 0) {
+                    showStatus('⚠️ ملفات موجودة: ' + duplicates.map(f => f.name).join(', '), 'err');
+                    return;
+                }
+            }
+
+            isUploading = true;
+            const uploadBtn = document.getElementById('uploadBtn');
+            uploadBtn.classList.add('disabled');
+
+            const totalFiles = fileArray.length;
+            let uploadedCount = 0, successCount = 0, failCount = 0;
+
+            const progressBox = document.getElementById('uploadProgress');
+            const progressText = document.getElementById('uploadProgressText');
+            const progressFill = document.getElementById('progressBarFill');
+            progressBox.classList.remove('hidden');
+            progressText.textContent = 'جاري رفع 0 من ' + totalFiles + ' ملف...';
+            progressFill.style.width = '0%';
+
+            const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+            async function readFileAsBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = () => reject(new Error('فشل قراءة: ' + file.name));
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function generateFileName(originalName) {
+                if (!UPLOAD_CONFIG.ADD_TIMESTAMP) return originalName;
+                const now = new Date();
+                const ts = now.getFullYear() + '-' +
+                    String(now.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(now.getDate()).padStart(2, '0') + '_' +
+                    String(now.getHours()).padStart(2, '0') + '-' +
+                    String(now.getMinutes()).padStart(2, '0') + '-' +
+                    String(now.getSeconds()).padStart(2, '0');
+                const dot = originalName.lastIndexOf('.');
+                if (dot > 0) return originalName.substring(0, dot) + '_' + ts + originalName.substring(dot);
+                return originalName + '_' + ts;
+            }
+
+            for (let i = 0; i < fileArray.length; i++) {
+                const file = fileArray[i];
+                try {
+                    const base64 = await readFileAsBase64(file);
+                    const finalName = generateFileName(file.name);
+                    const payload = {
+                        action: 'uploadFile',
+                        category: currentFile,
+                        clientName: currentClient,
+                        fileName: finalName,
+                        fileBase64: base64,
+                        mimeType: file.type || 'application/octet-stream'
+                    };
+                    const data = await apiPost(payload);
+                    if (data.success) successCount++;
+                    else { failCount++; console.error('فشل: ' + file.name + ' — ' + data.error); }
+                } catch (err) {
+                    failCount++;
+                    console.error('خطأ في ' + file.name, err);
+                }
+                uploadedCount++;
+                const percent = Math.round((uploadedCount / totalFiles) * 100);
+                progressText.textContent = 'جاري رفع ' + uploadedCount + ' من ' + totalFiles + ' (' + percent + '%)';
+                progressFill.style.width = percent + '%';
+                if (i < fileArray.length - 1) await sleep(UPLOAD_CONFIG.DELAY_BETWEEN_UPLOADS);
+            }
+
+            if (failCount === 0) {
+                progressText.textContent = '✅ تم رفع ' + successCount + ' ملف بنجاح';
+            } else {
+                progressText.textContent = '⚠️ نجح ' + successCount + ' وفشل ' + failCount;
+            }
+
+            setTimeout(() => {
+                progressBox.classList.add('hidden');
+                isUploading = false;
+                uploadBtn.classList.remove('disabled');
+                loadClientFiles();  // ✅ إصلاح: كانت a() سابقاً
+            }, 2000);
+        });
+
+        document.getElementById('passInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPassword();
+        });
+    </script>
+</body>
+</html>
